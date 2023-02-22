@@ -1,0 +1,36 @@
+// *******************************************************************************
+// Assignment 1B: Sick Tellers
+// *******************************************************************************
+#include <iostream>
+#include <list>
+using namespace std;
+
+int main()
+{
+	typedef unsigned short int s_int;
+	int No_Tellers;
+	unsigned int Sick_Days = 0;
+
+	cout << "How many tellers worked at Nation's Bank Hyatesville during each of the last"
+		" three years ?\n";
+	cin >> No_Tellers;
+
+	if (No_Tellers < 1) {
+		cerr << "Try inputing a number that's at least 1";
+		return 1;
+	}
+
+	for (s_int Teller = 1; Teller <= No_Tellers; Teller++) {
+		for (s_int Year = 1; Year < 4; Year++) {
+			int Days = 0;
+			cout << "How many days was teller " << Teller
+				<< " out sick during year " << Year << " ?\n";
+			cin >> Days;
+			Sick_Days += Days;
+		}
+	}
+	cout << "\nThe " << No_Tellers << " tellers were out sick for a total of "
+		<< Sick_Days << " days during the last 3 years.\n";
+
+	return 0;
+}
