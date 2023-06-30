@@ -1,0 +1,224 @@
+// *******************************************************************************
+// Assignment 7: Football Sorter
+// *******************************************************************************
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+struct splayer
+{
+	char lname[20];
+	char fname[20];
+	int birthmonth;
+	int birthday;
+	int birthyear;
+};
+
+void swap(splayer& play1, splayer& play2);
+void display_playerslist(splayer player);
+void sorteddata(splayer player[], int size);
+
+int main()
+{
+	int option;
+	string lname = " ", filename = "";
+	splayer player_list[10];
+	ifstream infileObj;
+	int i = 0;
+
+	while (1)
+	{
+		cout << "\n1. Input data\n2. Display original data\n";
+		cout << "3. Sort data by last name\n4. Display sorted data\n";
+		cout << "5. Search by last name\n";
+		cout << "6. Exit the program\n";
+		cout << "\nChose an option: ";
+		cin >> option;
+
+		switch (option)
+		{
+
+		case 1:
+			cout << "Enter the name of the file to read the data from: ";
+			cin >> filename;
+			infileObj.open(filename.data());
+
+			if (!infileObj)
+			{
+				cout << "\nError: File not found!";
+				break;
+			}
+
+			while (!infileObj.eof())
+			{
+				if (!infileObj.eof())
+				{
+					infileObj >> player_list[i].lname;
+					infileObj >> player_list[i].fname;
+					infileObj >> player_list[i].birthmonth;
+					infileObj >> player_list[i].birthday;
+					infileObj >> player_list[i].birthyear;
+					i++;
+				}
+			}
+			break;
+
+		case 2:
+
+			cout << "\nUnsorted data: \n";
+			for (i = 0; i < 10; i++)
+			{
+				display_playerslist(player_list[i]);
+			}
+			break;
+
+		case 3:
+
+			for (i = 0; i < 10; i++)
+			{
+				for (int j = i + 1; j < 10; j++)
+				{
+					if (strcmp(player_list[i].lname, player_list[j].lname) > 0)
+					{
+						swap(player_list[i], player_list[j]);
+					}
+				}
+			}
+			break;
+
+		case 4:
+
+			cout << "\nSorted data: \n";
+			sorteddata(player_list, 10);
+			break;
+
+		case 5:
+
+			while (lname != "//")
+			{
+				int found = 1;
+				int flag = 0;
+
+				cout << "Enter one or more starting letters of the last name";
+				cout << "\n(enter // to quit this option): \n";
+				cin >> lname;
+
+				if (lname == "//")
+				{
+					break;
+				}
+
+				for (int i = 0; i < 10; i++)
+				{
+					found = 1;
+
+					for (int j = 0; j < lname.length(); j++)
+					{
+
+						if (player_list[i].lname[j] != lname.at(j))
+						{
+							found = 0;
+							break;
+						}
+					}
+
+					if (found == 1)
+					{
+						flag = 1;
+						display_playerslist(player_list[i]);
+					}
+				}
+
+				if (flag == 0)
+				{
+					cout << "Not found.\n";
+				}
+			}
+			break;
+
+		case 6:
+
+			cout << "\nThank you for using this program.\n\n";
+			break;
+
+		default:
+
+			cout << "\nError: Invalid input!";
+		}
+
+		if (option == 6)
+		{
+			break;
+		}
+	}
+
+	system("pause");
+
+	return 0;
+}
+
+void swap(splayer& play1, splayer& play2)
+{
+	char temp_array[20];
+	strcpy_s(temp_array, play1.fname);
+	strcpy_s(play1.fname, play2.fname);
+	strcpy_s(play2.fname, temp_array);
+	strcpy_s(temp_array, play1.lname);
+	strcpy_s(play1.lname, play2.lname);
+	strcpy_s(play2.lname, temp_array);
+	int temp2 = play1.birthday;
+	play1.birthday = play2.birthday;
+	play2.birthday = temp2;
+	temp2 = play1.birthmonth;
+	play1.birthmonth = play2.birthmonth;
+	play2.birthmonth = temp2;
+	temp2 = play1.birthyear;
+	play1.birthyear = play2.birthyear;
+	play2.birthyear = temp2;
+}
+
+void display_playerslist(splayer player)
+{
+	cout << player.lname << " ";
+	cout << player.fname << " ";
+	cout << player.birthday << " ";
+	cout << player.birthmonth << " ";
+	cout << player.birthyear << "\n";
+}
+
+void sorteddata(splayer player[], int size)
+{
+	int* index;
+	index = new int[size];
+	int i, j, min;
+
+	for (int i = 0; i < size; i++)
+	{
+		index[i] = i;
+	}
+
+	for (i = 0; i < size - 1; i++)
+	{
+		min = i;
+
+		for (j = i + 1; j < size; j++)
+		{
+			if (strcmp(player[index[min]].lname, player[index[j]].lname) > 0)
+			{
+				min = j;
+			}
+		}
+		if (min != i)
+		{
+			int temp = index[min];
+			index[min] = index[i];
+			index[i] = temp;
+		}
+	}
+
+	for (i = 0; i < size; i++)
+	{
+		display_playerslist(player[index[i]]);
+	}
+}
