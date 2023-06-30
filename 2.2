@@ -1,0 +1,30 @@
+// *******************************************************************************
+// Assignment 2B: Mile per Hour Calculator
+// *******************************************************************************
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+void MPH(double miles, double hours, double& milesPerHour);
+
+int main()
+{
+	double mi, hr, miphr;
+
+	cout << "Please Input the Number of Miles Travelled: ";
+	cin >> mi;
+	cout << "Please Input the Hours Travelled: ";
+	cin >> hr;
+
+	MPH(mi, hr, miphr);
+
+	cout<<"Your speed is " << fixed << setprecision(2) << miphr
+		<< " Miles per Hour\n\n";
+
+	return 0; 
+}
+
+void MPH(double miles, double hours, double& milesPerHour)
+{
+	milesPerHour = miles / hours; 
+}
