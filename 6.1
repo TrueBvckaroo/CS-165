@@ -1,0 +1,252 @@
+// *******************************************************************************
+// Assignment 6A: String Program
+// *******************************************************************************
+#include<iostream>
+#include<cstring>
+
+using namespace std;
+
+int search(char first_String[], char last_String[]);
+
+int main()
+
+{
+	char str[2048];
+
+	char string_search[2048];
+
+	char string_insert[2048];
+
+	char string_append[2048];
+
+	char string_delete[2048];
+
+	char string_replace[2048];
+
+	char temp[2048];
+
+	int k = 0;
+
+	char ch;
+
+	int index, length;
+
+	cout << "Enter the string\n";
+	cin.getline(str, 2048);
+
+	while (true)
+	{
+		cout << "Chose an option:\n";
+		cout << "s - search\n i - insert\n a - append\n d - delete\n r - replace\n e-exit\n";
+		cin >> ch;
+
+		switch (ch)
+		{
+	
+		case 's':
+			cout << "Enter the string to be searched:\n";
+			cin >> string_search;
+			cout << "Search for: " << string_search << endl;
+			index = search(str, string_search);
+
+			if (index == -1)
+			{
+				cout << "string is not present\n";
+			}
+			else
+			{
+				cout << "string Found at the position:" << index << endl;
+			}
+			break;
+
+		case 'i':
+			length = strlen(str);
+			cout << "Enter index:\n";
+			cin >> index;
+			if (index<0 || index>length)
+			{
+				cout << " Index is not valid\n";
+			}
+			else
+			{
+				cout << "\nEnter string to insert:\n";
+
+				cin.ignore();
+
+				cin.getline(string_insert, 2048);
+
+				k = 0;
+
+				for (int i = 0; i < length; i++)
+				{
+					if (i == index)
+					{
+						for (int j = 0; j < strlen(string_insert); j++)
+						{
+							temp[k++] = string_insert[j];
+						}
+						temp[k++] = ' ';
+					}
+					temp[k++] = str[i];
+				}
+				temp[k] = '\0';
+				strcpy_s(str, temp);
+				cout << "\n new Updated string:" << str << endl;
+
+			}
+
+			break;
+
+		case 'a':
+
+			length = strlen(str);
+
+			cin.ignore();
+
+			cout << "Enter string to append at the end:\n";
+
+			cin.getline(string_append, 2048);
+
+			k = 0;
+			for (int i = 0; i < length; i++)
+			{
+				temp[k++] = str[i];
+			}
+			for (int j = 0; j < strlen(string_append); j++)
+			{
+				temp[k++] = string_append[j];
+			}
+
+			temp[k] = '\0';
+			strcpy_s(str, temp);
+
+			cout << "\nUpdated string:" << str << endl;
+			break;
+		case 'd':
+
+			length = strlen(str);
+			cin.ignore();
+			cout << "Enter a string to delete:\n";
+			cin.getline(string_delete, 2048);
+			cout << "Searching for:" << string_delete;
+			index = search(str, string_delete);
+
+			if (index == -1)
+			{
+				cout << "String not found\n";
+			}
+			else
+			{
+
+				k = 0;
+
+				for (int i = 0; i < length; i++)
+				{
+					if (i == index)
+					{
+						for (int j = 0; j < strlen(string_delete); j++)
+						{
+							i++;
+							continue;
+						}
+					}
+					else
+					{
+						temp[k++] = str[i];
+					}
+				}
+				temp[k] = '\0';
+				strcpy_s(str, temp);
+				cout << "\nNew Updated string:" << str << endl;
+			}
+
+			break;
+
+		case 'r':
+
+			length = strlen(str);
+			cin.ignore();
+			cout << "Enter the string to replace:\n";
+			cin.getline(string_replace, 2048);
+			cout << "The string to be replaced: :" << string_replace << endl;
+			index = search(str, string_replace);
+
+			if (index == -1)
+			{
+				cout << "not found\n";
+			}
+
+			else
+			{
+				char replacedString[2048];
+
+				cout << "Enter the replacing string:";
+
+				cin.getline(replacedString, 2048);
+
+				k = 0;
+
+				for (int i = 0; i < length; i++)
+				{
+					if (i == index)
+					{
+						for (int j = 0; j < strlen(replacedString); j++)
+						{
+							temp[k++] = replacedString[j];
+						}
+						temp[k++] = ' ';
+						i = i + strlen(string_replace);
+					}
+					else
+					{
+						temp[k++] = str[i];
+					}
+				}
+				temp[k] = '\0';
+
+				strcpy_s(str, temp);
+
+				cout << "\n new Updated string:" << str << endl;
+			}
+			break;
+
+		case 'e':
+
+			break;
+
+		default:
+
+			cout << "option is Invalid , Try again\n";
+		}
+		if (ch == 'e')
+
+			break;
+	}
+	cout << "Bye";
+
+	return 0;
+}
+
+int search(char first_String[], char last_String[])
+{
+	int sourceLength, targetLength, index, returnValue;
+
+	sourceLength = strlen(first_String);
+
+	targetLength = strlen(last_String);
+
+	index = -1;
+
+	for (int i = 0; i < (sourceLength - (targetLength - 1)); i++)
+	{
+		returnValue = strncmp(&first_String[i], last_String, targetLength);
+
+		if (returnValue == 0)
+		{
+			index = i;
+
+			break;
+		}
+	}
+	return index;
+}
