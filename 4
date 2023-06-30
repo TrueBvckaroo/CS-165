@@ -1,0 +1,146 @@
+// *******************************************************************************
+// Assignment 4: Searching n Sorting
+// *******************************************************************************
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+void SelectSort(int[], int);
+void Swap(int&, int&);
+int BinarySearch(const int[], int, int);
+double Mean(int[], int);
+
+int main() 
+{
+    const int Size = 50;
+    int arr[Size];
+    int NoElements;
+    int Elements;
+    int KeySearch;
+    int POS;
+
+
+    cout << "Please enter the number of elements you would like to enter (maximum 50)." << endl;
+    cin >> NoElements;
+
+    while (NoElements > Size)
+    {
+        cout << "The number cannot be greater than 50." << endl;
+        cout << "Enter a new number : " << endl;
+        cin >> NoElements;
+    }
+
+    for (int i = 0; i < NoElements; i++)
+    {
+        cout << "Please enter element " << i + 1 << "." << endl;
+        cin >> Elements;
+        arr[i] = Elements;
+    }
+
+    cout << "\n Please enter the value you want to find." << endl;
+    cin >> KeySearch;
+
+    cout << "\nYou've entered " << NoElements << " elements" << endl;
+    cout << "\nThe values that you entered for the array are :" << endl;
+    for (int i = 0; i < NoElements; i++)
+        cout << arr[i] << " ";
+    cout << endl << endl;
+
+    SelectSort(arr, NoElements);
+
+    cout << "\nThe values sorted in ascending order are :" << endl;
+    for (int i = 0; i < NoElements; i++)
+        cout << arr[i] << " ";
+    cout << endl << endl;
+
+    cout << "\nYou want the value, " << KeySearch << ", to be searched for.";
+    cout << endl;
+
+    POS = BinarySearch(arr, NoElements, KeySearch);
+
+    if (POS == -1)
+        cout << "The value could not be found." << endl;
+    else
+        cout << "The value was found at index " << POS << "." << endl;
+
+    cout << "\nThe mean of the elements of the array is ";
+    cout << fixed << showpoint << setprecision(2) << Mean(arr, NoElements);
+    cout << endl;
+
+    return 0;
+}
+
+void SelectSort(int arr[], int NoElements)
+{
+
+    int min_index, min_value;
+
+    for (int i = 0; i < (NoElements - 1); i++)
+    {
+        min_index = i;
+        min_value = arr[i];
+
+        for (int j = i + 1; j < NoElements; j++)
+        {
+            if (arr[j] < min_value)
+            {
+                min_value = arr[j];
+                min_index = j;
+            }
+        }
+
+        Swap(arr[min_index], arr[i]);
+
+    }
+
+}
+
+void Swap(int& a, int& b)
+{
+    int c = a;
+    a = b;
+    b = c;
+}
+
+
+
+int BinarySearch(const int arr[], int NoElements, int value)
+{
+    int first = 0;
+    int last = NoElements - 1;
+    int middle;
+    int position = -1;
+    bool is_found = false;
+
+    while (!is_found && first <= last)
+    {
+        middle = (first + last);
+
+        if (arr[middle] == value)
+        {
+            is_found = true;
+            position = middle;
+        }
+
+        else if (arr[middle] > value)
+            last = middle - 1;
+
+        else
+            first = middle + 1;
+    }
+
+    return position;
+}
+
+double Mean(int arr[], int NoElements)
+{
+    double sum = 0.0;
+
+    double mean;
+
+    for (int i = 0; i < NoElements; i++)
+        sum += arr[i];
+
+    mean = sum / NoElements;
+    return mean;
+}
