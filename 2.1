@@ -1,0 +1,36 @@
+// *******************************************************************************
+// Assignment 2A: Variable Swapper
+// *******************************************************************************
+#include <iostream>
+using namespace std;
+
+void swapp(float&, float&);
+
+int main() {
+	float first, second;
+
+	cout << "Enter the first number\nThen hit enter\n";
+	cin >> first;
+	cout << "Enter the second number\nThen hit enter\n";
+	cin >> second;
+
+	cout << "You input the numbers as " << first << " and " << second << ".\n";
+
+	swapp(first, second);
+
+	cout << "After swapping, the first number has the value of " << first
+		 << "\nwhich was the value of the second number\n"
+		 "The second number has the value of " << second
+		 << "\nwhich was the value of the first number\n";
+
+	return 0;
+}
+
+
+void swapp(float& a, float& b)
+{
+	float temp;
+	temp = a;
+	a = b;
+	b = temp;
+}
