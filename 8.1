@@ -1,0 +1,54 @@
+//********************************************************************************
+// Assignment 8A: Text Files
+// *******************************************************************************
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int main()
+{
+	Encryption();
+	Decryption();
+
+	cout << "\n\n";
+	return 0;
+}
+void Encryption()
+{
+	char ch;
+
+	fstream plain("HiddentData.txt", ios::in);
+	ofstream enc("RandomizedData.txt", ios::out);
+
+	while (plain.get(ch))
+	{
+		ch = char(int(ch) + 10);
+		enc.put(ch);
+	}
+
+	plain.close();
+	enc.close();
+
+	cout << "\n Data Encryption Completed... \n\n";
+}
+
+void Decryption()
+{
+	char ch;
+	cout << "\n\n Data decrypted: \n\n";
+	fstream enc("RandomizedData.txt", ios::in);
+	fstream dec("DecipherData.txt", ios::out);
+
+	while (enc.get(ch))
+	{
+		ch = char(int(ch) - 10);
+		cout << ch;
+		dec.put(ch);
+	}
+
+	dec.close();
+	enc.close();
+
+	cout << "\n\n Data Decryption Completed... \n\n";
+}
