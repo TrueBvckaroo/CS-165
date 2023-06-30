@@ -1,0 +1,165 @@
+//**********************************************************************************
+// Assignment 11: Number Array Class
+//**********************************************************************************
+
+
+//**********************************************************************************
+// NumberArray.h
+//**********************************************************************************
+#ifndef NUMBERARRAY_H_INCLUDED
+#define NUMBERARRAY_H_INCLUDED
+
+class NumberArray
+{
+private:
+	double* arrayPointer;
+	int size;
+
+public:
+	NumberArray(int);
+	~NumberArray();
+	void setCell(int, double);
+	int getCell(int);
+	double getAverage();
+	double getHighest();
+	double getLowest();
+};
+
+#endif
+
+
+
+//**********************************************************************************
+// NumberArray.cpp
+//**********************************************************************************
+#include <iostream>
+#include "NumberArray.h"
+using namespace std;
+
+NumberArray::NumberArray(int s)
+{
+	arrayPointer = nullptr;
+	arrayPointer = new double[s];
+	size = s;
+}
+
+NumberArray::~NumberArray()
+{
+	if (arrayPointer != nullptr)
+	{
+		delete[] arrayPointer;
+		arrayPointer = nullptr;
+	}
+}
+
+void NumberArray::setCell(int c, double val)
+{
+	if (arrayPointer != nullptr && c >= 0 && c <= size)
+		arrayPointer[c] = val;
+	else
+	{
+		cout << "Invalid cell number!\n";
+		exit(EXIT_FAILURE);
+	}
+}
+
+int NumberArray::getCell(int cellNum)
+{
+	if (cellNum < 0 || cellNum > size)
+	{
+		cout << "Invalid cell number!\n";
+		exit(EXIT_FAILURE);
+	}
+	return arrayPointer[cellNum];
+}
+
+double NumberArray::getAverage()
+{
+	double total = 0;
+
+	for (int count = 0; count < size; count++)
+	{
+		total += arrayPointer[count];
+	}
+	return total / size;
+}
+
+double NumberArray::getHighest()
+{
+	double highest = arrayPointer[0];
+
+	for (int count = 1; count < size; count++)
+	{
+		if (arrayPointer[count] > highest)
+		{
+			highest = arrayPointer[count];
+		}
+	}
+	return highest;
+}
+
+double NumberArray::getLowest()
+{
+	double lowest = arrayPointer[0];
+
+	for (int count = 1; count < size; count++)
+	{
+		if (arrayPointer[count] < lowest)
+		{
+			lowest = arrayPointer[count];
+		}
+	}
+	return lowest;
+}
+
+
+
+//**********************************************************************************
+// main.cpp
+//**********************************************************************************
+#include <iostream>
+#include "NumberArray.h"
+
+using namespace std;
+
+int main()
+{
+	int howMany;
+	int count;
+	double val;
+
+	cout << "How many numbers do you want to store? ";
+	cin >> howMany;
+
+	NumberArray numbers(howMany);
+
+	cout << "\nEnter the " << howMany << " numbers :\n";
+	for (count = 0; count < howMany; count++)
+	{
+		cout << "\tNumber " << (count + 1) << ": ";
+		cin >> val;
+
+		numbers.setCell(count, val);
+	}
+
+	cout << "\n---------------------------------\n";
+	cout << "\nHere are the numbers you entered:\n";
+	for (count = 0; count < howMany; count++)
+	{
+		cout << "Number " << (count + 1) << ": "
+			<< numbers.getCell(count)
+			<< endl;
+	}
+
+	cout << "\n---------------------------------\n";
+	cout << "\nThe average of those numbers are:\n";
+	cout << numbers.getAverage() << endl;
+
+	cout << "The highest of those numbers are:";
+	cout << numbers.getHighest() << endl;
+
+	cout << "The lowest of those numbers are:";
+	cout << numbers.getLowest() << endl << endl;
+
+	return 0;
+}
