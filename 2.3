@@ -1,0 +1,45 @@
+// *******************************************************************************
+// Assignment 2C: GPA Calculator
+// *******************************************************************************
+#include <iostream>
+using namespace std;
+	
+void GPA(float, int, float&);
+
+int main()
+{
+	int NoGrades;
+	float TotalSum = 0;
+	float Grade;
+	float Average;
+
+	cout << "Enter amount of grades to calculate: ";
+	cin >> NoGrades;
+
+	for (int i = 0; i < NoGrades; i++)
+	{
+		cout << "Enter Grade from 0-100: ";
+		cin >> Grade;
+		TotalSum = TotalSum + Grade;
+	}
+
+	GPA(TotalSum, NoGrades, Average);
+
+	cout << "You got a score of ";
+	if (Average >= 90)
+		cout << "A";
+	else if (Average >= 80)
+		cout << "B";
+	else if (Average >= 70)
+		cout << "C";
+	else if (Average >= 60)
+		cout << "D";
+	else cout << "F" << endl;
+
+	return 0;
+}
+
+void GPA(float Sum, int NoGrades, float& Avg)
+{
+	Avg = Sum / NoGrades;
+}
