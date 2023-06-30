@@ -1,0 +1,58 @@
+// *******************************************************************************
+// Assignment 6B: Pig Latin Converter
+// *******************************************************************************
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string leftTrim(string);
+string popWord(string&);
+string toPigLatin(string);
+
+int main()
+{
+    string sentence, pigLatinStr, word;
+
+    cout << "Enter a sentence: ";
+    getline(cin, sentence);
+
+    while (sentence.size() > 0) 
+    {
+        word = popWord(sentence);
+        pigLatinStr += toPigLatin(word) + " ";
+    }
+
+    cout << "Pig Latin: " << pigLatinStr << endl;
+
+    return 0;
+}
+
+string leftTrim(string str) 
+{
+    int i = 0;
+    while (str[i] == ' ') {
+        i++;
+    }
+    return str.substr(i);
+}
+
+string popWord(string& sentence) 
+{
+    sentence = leftTrim(sentence);
+    size_t pos = sentence.find(' ');
+    string word = sentence.substr(0, pos);
+    sentence.erase(0, pos == string::npos ? pos : pos + 1);
+
+    return word;
+}
+
+string toPigLatin(string word) 
+{
+    char firstLetter = word[0];
+    word += firstLetter;
+    word += "ay";
+    word.erase(0, 1);
+
+    return word;
+}
