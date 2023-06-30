@@ -1,0 +1,39 @@
+//**********************************************************************************
+// Assignment 10A: Palindrome String Checker
+//**********************************************************************************
+#include <iostream>
+#include <string>
+using namespace std;
+
+bool check_palindrome(string word);
+
+int main()
+{
+    string word;
+    cout << "Please enter a string:" << endl;
+    cin >> word;
+
+    if (check_palindrome(word) > 0)
+    {
+        cout << "The given string is palindrome" << endl;
+    }
+    else
+    {
+        cout << "The given string is not palindrome" << endl;
+    }
+
+}
+
+bool check_palindrome(string word)
+{
+    bool flag = false;
+    if (word.length() <= 1)
+    {
+        flag = true;
+    }
+    else if (word.at(0) == word.at(word.length() - 1))
+    {
+        flag = check_palindrome(word.substr(1, word.length() - 2));
+    }
+    return flag;
+}
