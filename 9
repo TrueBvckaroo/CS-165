@@ -1,0 +1,239 @@
+//*********************************************************************************
+// Assignment 9: Linked List Manipulation
+// ********************************************************************************
+#include "LinkedList.cpp"
+#include<sstream>
+
+void displayPrint()
+{
+	cout << "\n1. Add a Number\n";
+	cout << "2. Delete a number\n";
+	cout << "3. Search for a number\n";
+	cout << "4. Display the whole list of numbers\n";
+	cout << "5. Quit\n";
+	cout << "Enter your choice: ";
+}
+
+int getChoice()
+{
+	cin.clear();
+
+	displayPrint();
+	string ch;
+	getline(cin, ch);
+
+	stringstream str(ch);
+	int choice;
+	str >> choice;
+	while (choice <= 0 || choice > 6)
+	{
+		cout << "Invalid Input.Try Again\n";
+		displayPrint();
+		getline(cin, ch);
+
+		stringstream str(ch);
+		str >> choice;
+	}
+	return choice;
+}
+
+int getNum(string prompt)
+{
+	int num;
+	cout << "\n" << prompt;
+
+	string ch;
+	getline(cin, ch);
+
+	stringstream str(ch);
+
+	str >> num;
+
+	cin.clear();
+	return num;
+}
+
+int main()
+{
+	LinkedList list;
+	int ch = 0;
+	int num;
+	while (ch != 5)
+	{
+		ch = getChoice();
+		cout << "Selected Choice: " << ch << endl;
+		switch (ch)
+		{
+		case 1:
+			num = getNum("Enter Number to add: ");
+			list.addNumber(num);
+			break;
+		case 2:
+			num = getNum("Enter Number to Delete: ");
+			list.deleteNumber(num);
+			break;
+		case 3:
+			num = getNum("Enter Number to search: ");
+			list.search(num);
+			break;
+		case 4:
+			list.display();
+			break;
+		case 5:
+			cout << "Exiting..\n";
+			break;
+		default:
+			cout << "Invalid input\n";
+		}
+	}
+	return 0;
+}
+
+
+// ********************************************************************************
+//LinkedList.cpp:
+// ********************************************************************************
+#include<iostream>
+#include<cstdlib>
+using namespace std;
+
+typedef struct entry
+{
+	int number;
+	entry* next;
+}
+entry;
+
+class LinkedList
+{
+private:
+	entry* head;
+public:
+	void print()
+	{
+		cout << "s";
+	}
+	LinkedList()
+	{
+		head = NULL;
+	}
+	entry* allocateAndInit(int num)
+	{
+
+		entry* newEntry = (entry*)malloc(sizeof(entry));
+		newEntry->number = num;
+		newEntry->next = NULL;
+		return newEntry;
+	}
+
+	void addNumber(int num)
+	{
+		entry* newEntry = allocateAndInit(num);
+
+		if (head == NULL)
+		{
+			head = newEntry;
+			cout << "\n";
+			cout << num << " is Added to the List\n";
+		}
+		else
+		{
+
+			entry* temp = head;
+			entry* pre = NULL;
+
+			while (temp != NULL && num > temp->number)
+			{
+				pre = temp;
+				temp = temp->next;
+			}
+			if (temp != NULL && num == temp->number)
+			{
+				cout << num << " is Duplicate number. Not added to the list" << endl;
+				return;
+			}
+			if (pre == NULL)
+			{
+				newEntry->next = head;
+				head = newEntry;
+			}
+			else
+			{
+				pre->next = newEntry;
+				newEntry->next = temp;
+			}
+			cout << "\n";
+			cout << num << " is Added to the List\n";
+		}
+	}
+	void deleteNumber(int num)
+	{
+		entry* temp = head;
+		entry* pre = NULL;
+		bool found = false;
+		while (temp != NULL)
+		{
+			if (num == temp->number)
+			{
+				found = true;
+				break;
+			}
+			pre = temp;
+			temp = temp->next;
+		}
+		if (found)
+		{
+			if (pre == NULL)
+			{
+				head = head->next;
+			}
+			else
+			{
+				pre->next = temp->next;
+			}
+			cout << "\n";
+			cout << "Number: " << num << " is removed from the list\n";
+		}
+		else
+		{
+			cout << "\n";
+			cout << "Number: " << num << " is not in the list\n";
+		}
+	}
+	void search(int num)
+	{
+		entry* temp = head;
+
+		bool found = false;
+		while (temp != NULL)
+		{
+			if (num == temp->number)
+			{
+				found = true;
+				break;
+			}
+			temp = temp->next;
+		}
+		if (found)
+		{
+			cout << "\n";
+			cout << "the Number: " << num << " is in the list\n";
+		}
+		else
+		{
+			cout << "\n";
+			cout << "the Number: " << num << " is not in the list\n";
+		}
+	}
+	void display()
+	{
+		cout << "\n******* Numbers **********\n";
+		entry* temp = head;
+		while (temp != NULL)
+		{
+			cout << temp->number << " -> ";
+			temp = temp->next;
+		}
+		cout << "NULL\n\n";
+	}
+};
